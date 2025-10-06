@@ -2,11 +2,14 @@ import React from 'react';
 import { View, Image, Text, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import { NavigationProp } from '../navigation/types';
 
 export default function OnboardingScreen() {
+  const navigation = useNavigation<NavigationProp>();
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <View className="absolute top-20 left-6 z-10" style={{ width: 30, height: 30 }}>
+      <View className="absolute top-6 left-6 z-10" style={{ width: 30, height: 30 }}>
         <Image 
           source={require('../../assets/logo-flypay.png')} 
           style={{ width: 30, height: 30 }}
@@ -42,6 +45,7 @@ export default function OnboardingScreen() {
           <TouchableOpacity 
             className="flex-1 bg-green-500 py-4 rounded-lg items-center justify-center mr-3"
             style={{ backgroundColor: '#04BF7B' }}
+            onPress={() => navigation.navigate('Login')}
           >
             <Text style={{ color: 'white', fontSize: 16, fontFamily: 'Rubik_400Regular' }}>
               Entrar
