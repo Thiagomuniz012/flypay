@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { useFonts, Rubik_400Regular, Rubik_600SemiBold, Rubik_700Bold } from '@expo-google-fonts/rubik';
+import { useFonts, Rubik_400Regular, Rubik_500Medium, Rubik_600SemiBold, Rubik_700Bold } from '@expo-google-fonts/rubik';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import AppNavigator from './src/navigation/AppNavigator';
@@ -11,6 +11,7 @@ SplashScreen.preventAutoHideAsync();
 export default function App() {
   const [fontsLoaded] = useFonts({
     Rubik_400Regular,
+    Rubik_500Medium,
     Rubik_600SemiBold,
     Rubik_700Bold,
   });

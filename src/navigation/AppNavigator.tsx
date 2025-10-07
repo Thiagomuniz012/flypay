@@ -4,6 +4,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { RootStackParamList } from './types';
 import OnboardingScreen from '../screens/OnboardingScreen';
 import LoginScreen from '../screens/LoginScreen';
+import LoginWithSessionScreen from '../screens/LoginWithSessionScreen';
+import ConnectAccountScreen from '../screens/ConnectAccountScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -19,6 +21,8 @@ export default function AppNavigator() {
       >
         <Stack.Screen name="Onboarding" component={OnboardingScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="LoginWithSession" component={LoginWithSessionScreen} />
+        <Stack.Screen name="ConnectAccount" component={ConnectAccountScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

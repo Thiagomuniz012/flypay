@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -8,6 +8,12 @@ import { NavigationProp } from '../navigation/types';
 
 export default function LoginScreen() {
   const navigation = useNavigation<NavigationProp>();
+  const [cpfCnpj, setCpfCnpj] = useState('');
+  const [senha, setSenha] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [isCpfFocused, setIsCpfFocused] = useState(false);
+  const [isSenhaFocused, setIsSenhaFocused] = useState(false);
+
   return (
     <LinearGradient
       colors={['#04BF7B', '#0396A6']}
@@ -43,7 +49,7 @@ export default function LoginScreen() {
       />
       
       <SafeAreaView>
-        <View className="px-10" style={{ paddingTop: 70 }}>
+        <View className="px-10" style={{ paddingTop: 50 }}>
           <TouchableOpacity className="mb-8" onPress={() => navigation.goBack()}>
             <Ionicons name="arrow-back-outline" size={28} color="white" />
           </TouchableOpacity>
@@ -61,74 +67,173 @@ export default function LoginScreen() {
       </SafeAreaView>
 
       <View 
-        className="flex-1 px-6" 
+        className="flex-1" 
         style={{ 
           backgroundColor: 'white',
           borderTopLeftRadius: 24,
           borderTopRightRadius: 24,
           justifyContent: 'space-between', 
-          paddingTop: 34 
+          paddingTop: 34,
+          paddingHorizontal: 32
         }}
       >
-        <View style={{ alignItems: 'center' }}>
-          <Text 
-            style={{ 
-              fontSize: 26, 
-              color: '#25384D', 
-              fontFamily: 'Rubik_700Bold',
-              marginBottom: 50
-            }}
-          >
-            Bem vindo
-          </Text>
+        <View>
+          <View className="flex-row items-center mb-2">
+            <Text 
+              style={{ 
+                fontSize: 26, 
+                color: '#25384D', 
+                fontFamily: 'Rubik_700Bold',
+                marginRight: 8
+              }}
+            >
+              Bem-vindo de volta
+            </Text>
+            <Text style={{ fontSize: 24 }}>👋</Text>
+          </View>
           
           <Text 
-            className="text-center"
             style={{ 
-              fontSize: 14, 
+              fontSize: 16, 
               color: '#7A869A', 
               fontFamily: 'Rubik_400Regular',
-              marginBottom: 40
+              marginBottom: 32
             }}
           >
-            Parece que você ainda não cadastrou{'\n'}nenhuma conta.
+            Olá, faça login para continuar!
           </Text>
 
-          <View style={{ marginBottom: 40 }}>
-            <Image 
-              source={require('../../assets/login-image.png')} 
-              style={{ width: 200, height: 200 }}
-              resizeMode="contain"
+          <View style={{ marginBottom: 20 }}>
+            <Text style={{ 
+              fontSize: 14, 
+              color: (isCpfFocused || cpfCnpj) ? '#04BF7B' : '#C1C7D0', 
+              fontFamily: 'Rubik_600SemiBold',
+              marginBottom: 18
+            }}>
+              CPF ou CNPJ
+            </Text>
+            <TextInput
+              value={cpfCnpj}
+              onChangeText={setCpfCnpj}
+              onFocus={() => setIsCpfFocused(true)}
+              onBlur={() => setIsCpfFocused(false)}
+              placeholder="000.000.000-00"
+              placeholderTextColor="#B0B8C4"
+              keyboardType="numeric"
+              style={{
+                backgroundColor: isCpfFocused ? '#FFFFFF' : '#F5F7FA',
+                borderRadius: 12,
+                paddingHorizontal: 16,
+                paddingVertical: 14,
+                fontSize: 16,
+                fontFamily: 'Rubik_400Regular',
+                color: (isCpfFocused || cpfCnpj) ? '#25384D' : '#B0B8C4',
+                borderWidth: isCpfFocused ? 2 : 0,
+                borderColor: isCpfFocused ? '#04BF7B' : 'transparent'
+              }}
             />
+          </View>
+
+          <View style={{ marginBottom: 20 }}>
+            <Text style={{ 
+              fontSize: 14, 
+              color: (isSenhaFocused || senha) ? '#04BF7B' : '#C1C7D0', 
+              fontFamily: 'Rubik_600SemiBold',
+              marginBottom: 18
+            }}>
+              Senha
+            </Text>
+            <View style={{ position: 'relative' }}>
+              <TextInput
+                value={senha}
+                onChangeText={setSenha}
+                onFocus={() => setIsSenhaFocused(true)}
+                onBlur={() => setIsSenhaFocused(false)}
+                placeholder="********"
+                placeholderTextColor="#B0B8C4"
+                secureTextEntry={!showPassword}
+                style={{
+                  backgroundColor: isSenhaFocused ? '#FFFFFF' : '#F5F7FA',
+                  borderRadius: 12,
+                  paddingHorizontal: 16,
+                  paddingVertical: 14,
+                  fontSize: 16,
+                  fontFamily: 'Rubik_400Regular',
+                  color: (isSenhaFocused || senha) ? '#25384D' : '#B0B8C4',
+                  paddingRight: 48,
+                  borderWidth: isSenhaFocused ? 2 : 0,
+                  borderColor: isSenhaFocused ? '#04BF7B' : 'transparent'
+                }}
+              />
+              <TouchableOpacity
+                onPress={() => setShowPassword(!showPassword)}
+                style={{
+                  position: 'absolute',
+                  right: 16,
+                  top: 14,
+                }}
+              >
+                <Ionicons 
+                  name={showPassword ? 'eye-outline' : 'eye-off-outline'} 
+                  size={20} 
+                  color="#7A869A" 
+                />
+              </TouchableOpacity>
+            </View>
+            
+            <TouchableOpacity style={{ alignSelf: 'flex-start', marginTop: 13 }}>
+              <Text style={{ 
+                color: '#25384D', 
+                fontSize: 14, 
+                fontFamily: 'Rubik_500Medium' 
+              }}>
+                Esqueceu a senha?
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
 
-        <View className="pb-8" style={{ alignItems: 'center' }}>
+        <View className="pb-8" style={{ alignItems: 'center', marginTop: -60 }}>
           <TouchableOpacity 
-            className="items-center justify-center mb-4"
+            className="items-center justify-center"
             style={{ 
-              backgroundColor: '#04BF7B', 
+              backgroundColor: '#25384D', 
               borderRadius: 16,
               width: 290,
-              height: 45
+              height: 45,
+              marginBottom: 70
             }}
           >
             <Text style={{ 
               color: 'white', 
               fontSize: 16, 
-              fontFamily: 'Rubik_400Regular' 
+              fontFamily: 'Rubik_500Medium' 
             }}>
-              Cadastrar conta
+              Entrar
             </Text>
           </TouchableOpacity>
 
+          <View style={{ alignItems: 'center', marginBottom: 16 }}>
+            <Ionicons name="finger-print" size={40} color="#7A869A66" />
+            <Text style={{ 
+              color: '#7A869A66', 
+              fontSize: 16, 
+              fontFamily: 'Rubik_400Regular',
+              textAlign: 'center',
+              marginTop: 8,
+              marginBottom: 16
+            }}>
+              Toque no sensor{'\n'}para entrar com sua biometria
+            </Text>
+          </View>
+
           <TouchableOpacity className="items-center py-2">
             <Text style={{ 
-              color: '#1AB88D', 
+              color: '#0396A6', 
               fontSize: 16, 
-              fontFamily: 'Rubik_600SemiBold' 
+              fontFamily: 'Rubik_500Medium' 
             }}>
-              Criar conta
+              Preciso de ajuda
             </Text>
           </TouchableOpacity>
         </View>
