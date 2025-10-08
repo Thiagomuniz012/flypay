@@ -3,11 +3,11 @@ import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useNavigation } from '@react-navigation/native';
-import { NavigationProp } from '../navigation/types';
+import { useRouter } from 'expo-router';
 
-export default function LoginScreen() {
-  const navigation = useNavigation<NavigationProp>();
+export default function LoginNotFoundScreen() {
+  const router = useRouter();
+
   return (
     <LinearGradient
       colors={['#04BF7B', '#0396A6']}
@@ -44,7 +44,7 @@ export default function LoginScreen() {
       
       <SafeAreaView>
         <View className="px-10" style={{ paddingTop: 50 }}>
-          <TouchableOpacity className="mb-8" onPress={() => navigation.goBack()}>
+          <TouchableOpacity className="mb-8" onPress={() => router.back()}>
             <Ionicons name="arrow-back-outline" size={28} color="white" />
           </TouchableOpacity>
           <Text 
@@ -52,7 +52,7 @@ export default function LoginScreen() {
               color: 'white', 
               fontSize: 28, 
               fontFamily: 'Rubik_700Bold',
-              marginBottom:36
+              marginBottom: 36
             }}
           >
             Login
@@ -61,72 +61,76 @@ export default function LoginScreen() {
       </SafeAreaView>
 
       <View 
-        className="flex-1 px-6" 
+        className="flex-1" 
         style={{ 
           backgroundColor: 'white',
           borderTopLeftRadius: 24,
           borderTopRightRadius: 24,
           justifyContent: 'space-between', 
-          paddingTop: 34 
+          paddingTop: 34,
+          paddingHorizontal: 32
         }}
       >
-        <View style={{ alignItems: 'center' }}>
+        <View>
           <Text 
             style={{ 
               fontSize: 26, 
               color: '#25384D', 
               fontFamily: 'Rubik_700Bold',
+              textAlign: 'center',
               marginBottom: 50
             }}
           >
-            Bem vindo
+            Bem-vindo
           </Text>
           
           <Text 
-            className="text-center"
             style={{ 
-              fontSize: 14, 
+              fontSize: 16, 
               color: '#7A869A', 
               fontFamily: 'Rubik_400Regular',
-              marginBottom: 40
+              textAlign: 'center',
+              marginBottom: 10
             }}
           >
             Parece que você ainda não cadastrou{'\n'}nenhuma conta.
           </Text>
 
-          <View style={{ marginBottom: 40 }}>
+          <View style={{ alignItems: 'center', marginTop: 20 }}>
             <Image 
-              source={require('../../assets/login-image.png')} 
-              style={{ width: 200, height: 200 }}
+              source={require('../assets/login-image.png')}
+              style={{ width: 240, height: 240 }}
               resizeMode="contain"
             />
           </View>
         </View>
 
-        <View className="pb-8" style={{ alignItems: 'center' }}>
+        <View className="pb-8" style={{ alignItems: 'center', marginBottom: 28 }}>
           <TouchableOpacity 
-            className="items-center justify-center mb-4"
+            onPress={() => router.push('/create-account')}
             style={{ 
               backgroundColor: '#04BF7B', 
               borderRadius: 16,
               width: 290,
-              height: 45
+              height: 45,
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginBottom: 16
             }}
           >
             <Text style={{ 
               color: 'white', 
               fontSize: 16, 
-              fontFamily: 'Rubik_400Regular' 
+              fontFamily: 'Rubik_500Medium' 
             }}>
               Cadastrar conta
             </Text>
           </TouchableOpacity>
-
-          <TouchableOpacity className="items-center py-2">
+          <TouchableOpacity onPress={() => router.push('/create-account')}>
             <Text style={{ 
-              color: '#1AB88D', 
+              color: '#04BF7B', 
               fontSize: 16, 
-              fontFamily: 'Rubik_600SemiBold' 
+              fontFamily: 'Rubik_500Medium' 
             }}>
               Criar conta
             </Text>

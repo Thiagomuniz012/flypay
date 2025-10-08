@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import { View, Image, Text, TouchableOpacity, Pressable, Animated } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import { NavigationProp } from '../navigation/types';
+import { useRouter } from 'expo-router';
 
 export default function OnboardingScreen() {
-  const navigation = useNavigation<NavigationProp>();
+  const router = useRouter();
   const [isHovered, setIsHovered] = useState(false);
   const translateX = useState(new Animated.Value(0))[0];
 
@@ -32,7 +31,7 @@ export default function OnboardingScreen() {
     <SafeAreaView className="flex-1 bg-white">
       <View className="absolute top-20 left-6 z-10" style={{ width: 30, height: 30 }}>
         <Image 
-          source={require('../../assets/logo-flypay.png')} 
+          source={require('../assets/logo-flypay.png')} 
           style={{ width: 30, height: 30 }}
           resizeMode="contain"
         />
@@ -40,7 +39,7 @@ export default function OnboardingScreen() {
 
       <View className="flex-1 px-6" style={{ justifyContent: 'center', alignItems: 'center', marginTop: -40 }}>
         <Image 
-          source={require('../../assets/onboarding-image.gif')} 
+          source={require('../assets/onboarding-image.gif')} 
           style={{ width: 525, height: 330, marginBottom: 20 }}
           resizeMode="contain"
         />
@@ -65,8 +64,8 @@ export default function OnboardingScreen() {
         <View className="flex-row">
           <TouchableOpacity 
             className="flex-1 bg-green-500 py-4 rounded-lg items-center justify-center mr-3"
-            style={{ backgroundColor: '#04BF7B' }}
-            onPress={() => navigation.navigate('LoginWithSession')}
+            style={{ backgroundColor: '#04BF7B', marginLeft: 14 }}
+            onPress={() => router.push('/login')}
           >
             <Text style={{ color: 'white', fontSize: 16, fontFamily: 'Rubik_500Medium' }}>
               Entrar
@@ -79,6 +78,7 @@ export default function OnboardingScreen() {
             onPressOut={handlePressOut}
             onHoverIn={handlePressIn}
             onHoverOut={handlePressOut}
+            onPress={() => router.push('/create-account')}
           >
             <Text style={{ 
               color: isHovered ? '#04BF7B' : '#7A869A', 
@@ -101,3 +101,4 @@ export default function OnboardingScreen() {
     </SafeAreaView>
   );
 }
+

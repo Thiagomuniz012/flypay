@@ -1,28 +1,71 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useNavigation } from '@react-navigation/native';
-import { NavigationProp } from '../navigation/types';
+import { useRouter } from 'expo-router';
+import { obterTodosUsuariosDaStorage, salvarUsuarioLogado } from '../services/storage';
+import { useAuth } from '../contexts/AuthContext';
 
 interface Account {
+  id: number;
   name: string;
   cpf: string;
 }
 
 export default function LoginWithSessionScreen() {
-  const navigation = useNavigation<NavigationProp>();
+  const router = useRouter();
+  const { setUser, logout } = useAuth();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [selectedAccount, setSelectedAccount] = useState<Account>({
-    name: 'Rafa',
-    cpf: 'CPF: ***.091.000-**'
-  });
-  
-  const accounts: Account[] = [
-    { name: 'Rafa', cpf: 'CPF: ***.091.000-**' },
-    { name: 'Maria', cpf: 'CPF: ***.091.000-**' }
-  ];
+  const [selectedAccount, setSelectedAccount] = useState<Account | null>(null);
+  const [accounts, setAccounts] = useState<Account[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [entrando, setEntrando] = useState(false);
+
+  useEffect(() => {
+    carregarUsuarios();
+  }, []);
+
+  const carregarUsuarios = async () => {
+    try {
+      const usuarios = await obterTodosUsuariosDaStorage();
+      const contasFormatadas: Account[] = usuarios.map(usuario => ({
+        id: usuario.id,
+        name: usuario.nomeCompleto.split(' ')[0],
+        cpf: `CPF: ***.${usuario.cpf.slice(3, 6)}.${usuario.cpf.slice(6, 9)}-**`
+      }));
+      
+      setAccounts(contasFormatadas);
+      if (contasFormatadas.length > 0) {
+        setSelectedAccount(contasFormatadas[0]);
+      }
+    } catch (error) {
+      console.error('Erro ao carregar usuários:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleEntrar = async () => {
+    if (!selectedAccount) return;
+
+    setEntrando(true);
+
+    try {
+      const usuarios = await obterTodosUsuariosDaStorage();
+      const usuario = usuarios.find(u => u.id === selectedAccount.id);
+      
+      if (usuario) {
+        await salvarUsuarioLogado(usuario);
+        setUser(usuario);
+        router.push('/home');
+      }
+    } catch (error) {
+      console.error('Erro ao fazer login:', error);
+    } finally {
+      setEntrando(false);
+    }
+  };
 
   return (
     <LinearGradient
@@ -60,7 +103,10 @@ export default function LoginWithSessionScreen() {
       
       <SafeAreaView>
         <View className="px-10" style={{ paddingTop: 50 }}>
-          <TouchableOpacity className="mb-8" onPress={() => navigation.goBack()}>
+          <TouchableOpacity className="mb-8" onPress={async () => {
+            await logout();
+            router.push('/login');
+          }}>
             <Ionicons name="arrow-back-outline" size={28} color="white" />
           </TouchableOpacity>
           <Text 
@@ -114,51 +160,86 @@ export default function LoginWithSessionScreen() {
           </Text>
 
           <View style={{ marginBottom: 20 }}>
-            <TouchableOpacity
-              onPress={() => setIsDropdownOpen(!isDropdownOpen)}
-              style={{
+            {loading ? (
+              <View style={{
                 backgroundColor: '#FFFFFF',
-                borderTopLeftRadius: 12,
-                borderTopRightRadius: 12,
-                borderBottomLeftRadius: isDropdownOpen ? 0 : 12,
-                borderBottomRightRadius: isDropdownOpen ? 0 : 12,
+                borderRadius: 12,
                 paddingHorizontal: 20,
                 paddingVertical: 16,
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                shadowColor: '#000',
-                shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.02,
-                shadowRadius: 8,
-                elevation: 1
-              }}
-            >
-              <View>
+                alignItems: 'center'
+              }}>
                 <Text style={{ 
-                  fontSize: 18, 
-                  color: '#25384D', 
-                  fontFamily: 'Rubik_600SemiBold',
-                  marginBottom: 4
-                }}>
-                  {selectedAccount.name}
-                </Text>
-                <Text style={{ 
-                  fontSize: 14, 
+                  fontSize: 16, 
                   color: '#7A869A', 
                   fontFamily: 'Rubik_400Regular'
                 }}>
-                  {selectedAccount.cpf}
+                  Carregando contas...
                 </Text>
               </View>
-              <Ionicons 
-                name={isDropdownOpen ? 'chevron-up' : 'chevron-down'} 
-                size={24} 
-                color="#04BF7B" 
-              />
-            </TouchableOpacity>
+            ) : accounts.length === 0 ? (
+              <View style={{
+                backgroundColor: '#FFFFFF',
+                borderRadius: 12,
+                paddingHorizontal: 20,
+                paddingVertical: 16,
+                alignItems: 'center'
+              }}>
+                <Text style={{ 
+                  fontSize: 16, 
+                  color: '#7A869A', 
+                  fontFamily: 'Rubik_400Regular',
+                  textAlign: 'center'
+                }}>
+                  Nenhuma conta encontrada.{'\n'}Cadastre-se primeiro!
+                </Text>
+              </View>
+            ) : (
+              <TouchableOpacity
+                onPress={() => setIsDropdownOpen(!isDropdownOpen)}
+                style={{
+                  backgroundColor: '#FFFFFF',
+                  borderTopLeftRadius: 12,
+                  borderTopRightRadius: 12,
+                  borderBottomLeftRadius: isDropdownOpen ? 0 : 12,
+                  borderBottomRightRadius: isDropdownOpen ? 0 : 12,
+                  paddingHorizontal: 20,
+                  paddingVertical: 16,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  shadowColor: '#000',
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowOpacity: 0.02,
+                  shadowRadius: 8,
+                  elevation: 1
+                }}
+              >
+                <View>
+                  <Text style={{ 
+                    fontSize: 18, 
+                    color: '#25384D', 
+                    fontFamily: 'Rubik_600SemiBold',
+                    marginBottom: 4
+                  }}>
+                    {selectedAccount?.name}
+                  </Text>
+                  <Text style={{ 
+                    fontSize: 14, 
+                    color: '#7A869A', 
+                    fontFamily: 'Rubik_400Regular'
+                  }}>
+                    {selectedAccount?.cpf}
+                  </Text>
+                </View>
+                <Ionicons 
+                  name={isDropdownOpen ? 'chevron-up' : 'chevron-down'} 
+                  size={24} 
+                  color="#04BF7B" 
+                />
+              </TouchableOpacity>
+            )}
 
-            {isDropdownOpen && (
+            {isDropdownOpen && accounts.length > 0 && (
               <View style={{ 
                 backgroundColor: '#FFFFFF',
                 borderBottomLeftRadius: 12,
@@ -173,10 +254,10 @@ export default function LoginWithSessionScreen() {
                 elevation: 1
               }}>
                 {accounts
-                  .filter(account => account.name !== selectedAccount.name)
+                  .filter(account => account.id !== selectedAccount?.id)
                   .map((account, index) => (
                     <TouchableOpacity
-                      key={index}
+                      key={account.id}
                       onPress={() => {
                         setSelectedAccount(account);
                         setIsDropdownOpen(false);
@@ -208,7 +289,7 @@ export default function LoginWithSessionScreen() {
                 }
                 
                 <TouchableOpacity
-                  onPress={() => navigation.navigate('ConnectAccount')}
+                  onPress={() => router.push('/connect-account')}
                   style={{
                     paddingHorizontal: 20,
                     paddingVertical: 16,
@@ -230,9 +311,11 @@ export default function LoginWithSessionScreen() {
 
         <View className="pb-8" style={{ alignItems: 'center', marginTop: -60 }}>
           <TouchableOpacity 
+            onPress={handleEntrar}
+            disabled={!selectedAccount || entrando}
             className="items-center justify-center"
             style={{ 
-              backgroundColor: '#04BF7B', 
+              backgroundColor: (!selectedAccount || entrando) ? '#7A869A' : '#04BF7B', 
               borderRadius: 16,
               width: 290,
               height: 45,
@@ -244,7 +327,7 @@ export default function LoginWithSessionScreen() {
               fontSize: 16, 
               fontFamily: 'Rubik_500Medium' 
             }}>
-              Entrar
+              {entrando ? 'Entrando...' : 'Entrar'}
             </Text>
           </TouchableOpacity>
 

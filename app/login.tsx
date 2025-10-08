@@ -1,18 +1,46 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useNavigation } from '@react-navigation/native';
-import { NavigationProp } from '../navigation/types';
+import { useRouter } from 'expo-router';
+import { autenticarUsuario, salvarUsuarioLogado } from '../services/storage';
+import { useAuth } from '../contexts/AuthContext';
+import CustomAlert from '../components/CustomAlert';
+import { useCustomAlert } from '../hooks/useCustomAlert';
+import CPFInput from '../components/CPFInput';
+import PasswordInput from '../components/PasswordInput';
 
 export default function LoginScreen() {
-  const navigation = useNavigation<NavigationProp>();
+  const router = useRouter();
+  const { setUser } = useAuth();
+  const { alert, hideAlert, showSuccess, showError } = useCustomAlert();
   const [cpfCnpj, setCpfCnpj] = useState('');
   const [senha, setSenha] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
   const [isCpfFocused, setIsCpfFocused] = useState(false);
   const [isSenhaFocused, setIsSenhaFocused] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleLogin = async () => {
+    if (!cpfCnpj || !senha) {
+      showError('Campos obrigatórios', 'Preencha todos os campos para continuar');
+      return;
+    }
+
+    setLoading(true);
+
+    const cpfLimpo = cpfCnpj.replace(/\D/g, '');
+    const usuario = await autenticarUsuario(cpfLimpo, senha);
+
+    if (usuario) {
+      await salvarUsuarioLogado(usuario);
+      setUser(usuario);
+      router.replace('/home');
+    } else {
+      setLoading(false);
+      router.push('/login-not-found');
+    }
+  };
 
   return (
     <LinearGradient
@@ -50,7 +78,7 @@ export default function LoginScreen() {
       
       <SafeAreaView>
         <View className="px-10" style={{ paddingTop: 50 }}>
-          <TouchableOpacity className="mb-8" onPress={() => navigation.goBack()}>
+          <TouchableOpacity className="mb-8" onPress={() => router.replace('/onboarding')}>
             <Ionicons name="arrow-back-outline" size={28} color="white" />
           </TouchableOpacity>
           <Text 
@@ -81,7 +109,7 @@ export default function LoginScreen() {
           <View className="flex-row items-center mb-2">
             <Text 
               style={{ 
-                fontSize: 26, 
+                fontSize: 24, 
                 color: '#25384D', 
                 fontFamily: 'Rubik_700Bold',
                 marginRight: 8
@@ -97,111 +125,53 @@ export default function LoginScreen() {
               fontSize: 16, 
               color: '#7A869A', 
               fontFamily: 'Rubik_400Regular',
-              marginBottom: 32
+              marginBottom: 16
             }}
           >
             Olá, faça login para continuar!
           </Text>
 
-          <View style={{ marginBottom: 20 }}>
-            <Text style={{ 
-              fontSize: 14, 
-              color: (isCpfFocused || cpfCnpj) ? '#04BF7B' : '#C1C7D0', 
-              fontFamily: 'Rubik_600SemiBold',
-              marginBottom: 18
-            }}>
-              CPF ou CNPJ
-            </Text>
-            <TextInput
-              value={cpfCnpj}
-              onChangeText={setCpfCnpj}
-              onFocus={() => setIsCpfFocused(true)}
-              onBlur={() => setIsCpfFocused(false)}
-              placeholder="000.000.000-00"
-              placeholderTextColor="#B0B8C4"
-              keyboardType="numeric"
-              style={{
-                backgroundColor: isCpfFocused ? '#FFFFFF' : '#F5F7FA',
-                borderRadius: 12,
-                paddingHorizontal: 16,
-                paddingVertical: 14,
-                fontSize: 16,
-                fontFamily: 'Rubik_400Regular',
-                color: (isCpfFocused || cpfCnpj) ? '#25384D' : '#B0B8C4',
-                borderWidth: isCpfFocused ? 2 : 0,
-                borderColor: isCpfFocused ? '#04BF7B' : 'transparent'
-              }}
-            />
-          </View>
+          <CPFInput
+            value={cpfCnpj}
+            onChangeText={setCpfCnpj}
+            label="CPF ou CNPJ"
+            isFocused={isCpfFocused}
+            onFocus={() => setIsCpfFocused(true)}
+            onBlur={() => setIsCpfFocused(false)}
+          />
 
-          <View style={{ marginBottom: 20 }}>
-            <Text style={{ 
-              fontSize: 14, 
-              color: (isSenhaFocused || senha) ? '#04BF7B' : '#C1C7D0', 
-              fontFamily: 'Rubik_600SemiBold',
-              marginBottom: 18
-            }}>
-              Senha
-            </Text>
-            <View style={{ position: 'relative' }}>
-              <TextInput
-                value={senha}
-                onChangeText={setSenha}
-                onFocus={() => setIsSenhaFocused(true)}
-                onBlur={() => setIsSenhaFocused(false)}
-                placeholder="********"
-                placeholderTextColor="#B0B8C4"
-                secureTextEntry={!showPassword}
-                style={{
-                  backgroundColor: isSenhaFocused ? '#FFFFFF' : '#F5F7FA',
-                  borderRadius: 12,
-                  paddingHorizontal: 16,
-                  paddingVertical: 14,
-                  fontSize: 16,
-                  fontFamily: 'Rubik_400Regular',
-                  color: (isSenhaFocused || senha) ? '#25384D' : '#B0B8C4',
-                  paddingRight: 48,
-                  borderWidth: isSenhaFocused ? 2 : 0,
-                  borderColor: isSenhaFocused ? '#04BF7B' : 'transparent'
-                }}
-              />
-              <TouchableOpacity
-                onPress={() => setShowPassword(!showPassword)}
-                style={{
-                  position: 'absolute',
-                  right: 16,
-                  top: 14,
-                }}
-              >
-                <Ionicons 
-                  name={showPassword ? 'eye-outline' : 'eye-off-outline'} 
-                  size={20} 
-                  color="#7A869A" 
-                />
-              </TouchableOpacity>
-            </View>
+          <PasswordInput
+            value={senha}
+            onChangeText={setSenha}
+            label="Senha"
+            isFocused={isSenhaFocused}
+            onFocus={() => setIsSenhaFocused(true)}
+            onBlur={() => setIsSenhaFocused(false)}
+          />
             
-            <TouchableOpacity style={{ alignSelf: 'flex-start', marginTop: 13 }}>
-              <Text style={{ 
-                color: '#25384D', 
-                fontSize: 14, 
-                fontFamily: 'Rubik_500Medium' 
-              }}>
-                Esqueceu a senha?
-              </Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity style={{ alignSelf: 'flex-start' }}>
+            <Text style={{ 
+              color: '#25384D', 
+              fontSize: 14, 
+              fontFamily: 'Rubik_500Medium' 
+            }}>
+              Esqueceu a senha?
+            </Text>
+          </TouchableOpacity>
         </View>
 
-        <View className="pb-8" style={{ alignItems: 'center', marginTop: -60 }}>
+        <View className="pb-8" style={{ alignItems: 'center', marginTop: 20 }}>
           <TouchableOpacity 
+            onPress={handleLogin}
+            disabled={loading}
             className="items-center justify-center"
             style={{ 
               backgroundColor: '#25384D', 
               borderRadius: 16,
               width: 290,
               height: 45,
-              marginBottom: 70
+              marginBottom: 20,
+              opacity: loading ? 0.7 : 1
             }}
           >
             <Text style={{ 
@@ -209,15 +179,15 @@ export default function LoginScreen() {
               fontSize: 16, 
               fontFamily: 'Rubik_500Medium' 
             }}>
-              Entrar
+              {loading ? 'Entrando...' : 'Entrar'}
             </Text>
           </TouchableOpacity>
 
           <View style={{ alignItems: 'center', marginBottom: 16 }}>
-            <Ionicons name="finger-print" size={40} color="#7A869A66" />
+            <Ionicons name="finger-print" size={32} color="#7A869A66" />
             <Text style={{ 
               color: '#7A869A66', 
-              fontSize: 16, 
+              fontSize: 12, 
               fontFamily: 'Rubik_400Regular',
               textAlign: 'center',
               marginTop: 8,
@@ -238,7 +208,17 @@ export default function LoginScreen() {
           </TouchableOpacity>
         </View>
       </View>
+      
+      <CustomAlert
+        visible={alert.visible}
+        title={alert.title}
+        message={alert.message}
+        type={alert.type}
+        onClose={hideAlert}
+        onConfirm={alert.onConfirm}
+        confirmText={alert.confirmText}
+        showCancel={alert.showCancel}
+      />
     </LinearGradient>
   );
 }
-
