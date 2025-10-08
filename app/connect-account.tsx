@@ -41,67 +41,50 @@ export default function ConnectAccountScreen() {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-      <View style={{ flex: 1, backgroundColor: 'white', paddingHorizontal: 32 }}>
-        <View style={{ paddingTop: 20, marginBottom: 32 }}>
-          <TouchableOpacity onPress={() => router.back()} style={{ marginBottom: 24 }}>
+    <SafeAreaView className="flex-1 bg-white">
+      <View className="flex-1 bg-white px-8">
+        <View className="pt-5 mb-8">
+          <TouchableOpacity onPress={() => router.back()} className="mb-6">
             <Ionicons name="arrow-back-outline" size={28} color="#25384D" />
           </TouchableOpacity>
-          <Text 
-            style={{ 
-              color: '#25384D', 
-              fontSize: 22, 
-              fontFamily: 'Rubik_700Bold'
-            }}
-          >
+          <Text className="text-text-primary text-[22px]" style={{ fontFamily: 'Rubik_700Bold' }}>
             Conectar-se a outra conta
           </Text>
         </View>
 
-        <View style={{ flex: 1, justifyContent: 'space-between', marginTop: 60 }}>
-        <View>
-          <CPFInput
-            value={cpfCnpj}
-            onChangeText={setCpfCnpj}
-            label="CPF ou CNPJ"
-            isFocused={isCpfFocused}
-            onFocus={() => setIsCpfFocused(true)}
-            onBlur={() => setIsCpfFocused(false)}
-            style={{ marginBottom: 40 }}
-          />
+        <View className="flex-1 justify-between mt-14">
+          <View>
+            <CPFInput
+              value={cpfCnpj}
+              onChangeText={setCpfCnpj}
+              label="CPF ou CNPJ"
+              isFocused={isCpfFocused}
+              onFocus={() => setIsCpfFocused(true)}
+              onBlur={() => setIsCpfFocused(false)}
+              style={{ marginBottom: 20 }}
+            />
 
-          <CustomInput
-            value={nome}
-            onChangeText={setNome}
-            label="Como deseja ser chamado"
-            placeholder="Seu nome"
-            isFocused={isNomeFocused}
-            onFocus={() => setIsNomeFocused(true)}
-            onBlur={() => setIsNomeFocused(false)}
-          />
-        </View>
+            <CustomInput
+              value={nome}
+              onChangeText={setNome}
+              label="Como deseja ser chamado"
+              placeholder="Seu nome"
+              isFocused={isNomeFocused}
+              onFocus={() => setIsNomeFocused(true)}
+              onBlur={() => setIsNomeFocused(false)}
+            />
+          </View>
 
-        <View style={{ paddingBottom: 32, alignItems: 'center', marginBottom: 28 }}>
-          <TouchableOpacity 
-            onPress={handleEntrar}
-            style={{ 
-              backgroundColor: '#04BF7B', 
-              borderRadius: 16,
-              width: 290,
-              height: 45,
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
-          >
-            <Text style={{ 
-              color: 'white', 
-              fontSize: 16, 
-              fontFamily: 'Rubik_500Medium' 
-            }}>
-              Entrar
-            </Text>
-          </TouchableOpacity>
-        </View>
+          <View className="pb-8 items-center mb-7">
+            <TouchableOpacity 
+              onPress={handleEntrar}
+              className="bg-primary rounded-2xl w-[290px] h-[45px] items-center justify-center"
+            >
+              <Text className="text-white text-lg" style={{ fontFamily: 'Rubik_500Medium' }}>
+                Salvar
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
 

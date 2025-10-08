@@ -50,61 +50,28 @@ export default function EnterAccountScreen() {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-      <View style={{ flex: 1, backgroundColor: 'white', paddingHorizontal: 32 }}>
-        <View style={{ paddingTop: 20, marginBottom: 32 }}>
-          <TouchableOpacity onPress={() => router.back()} style={{ marginBottom: 24 }}>
+    <SafeAreaView className="flex-1 bg-white">
+      <View className="flex-1 bg-white px-8">
+        <View className="pt-5 mb-8">
+          <TouchableOpacity onPress={() => router.back()} className="mb-6">
             <Ionicons name="arrow-back-outline" size={28} color="#25384D" />
           </TouchableOpacity>
-          <Text 
-            style={{ 
-              color: '#25384D', 
-              fontSize: 22, 
-              fontFamily: 'Rubik_700Bold'
-            }}
-          >
+          <Text className="text-text-primary text-[22px]" style={{ fontFamily: 'Rubik_700Bold' }}>
             Entre na sua conta
           </Text>
         </View>
 
-        <View style={{ flex: 1, justifyContent: 'space-between', marginTop: 32 }}>
+        <View className="flex-1 justify-between mt-8">
           <View>
-            <View 
-              style={{ 
-                flexDirection: 'row', 
-                alignItems: 'center',
-                marginBottom: 40
-              }}
-            >
-              <View 
-                style={{ 
-                  width: 64, 
-                  height: 64, 
-                  borderRadius: 40,
-                  borderWidth: 3,
-                  borderColor: '#04BF7B',
-                  marginRight: 16,
-                  backgroundColor: '#F5F7FA',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}
-              >
+            <View className="flex-row items-center mb-10">
+              <View className="w-16 h-16 rounded-full border-[3px] border-primary mr-4 bg-border-light items-center justify-center">
                 <Ionicons name="person" size={32} color="#04BF7B" />
               </View>
               <View>
-                <Text style={{ 
-                  color: '#25384D', 
-                  fontSize: 18, 
-                  fontFamily: 'Rubik_600SemiBold',
-                  marginBottom: 4
-                }}>
+                <Text className="text-text-primary text-lg mb-1" style={{ fontFamily: 'Rubik_600SemiBold' }}>
                   {nomeUsuario}
                 </Text>
-                <Text style={{ 
-                  color: '#7A869A', 
-                  fontSize: 14, 
-                  fontFamily: 'Rubik_400Regular'
-                }}>
+                <Text className="text-text-secondary text-sm" style={{ fontFamily: 'Rubik_400Regular' }}>
                   CPF: {formatarCPF(cpfUsuario)}
                 </Text>
               </View>
@@ -119,28 +86,17 @@ export default function EnterAccountScreen() {
               onBlur={() => setIsSenhaFocused(false)}
             />
               
-            <TouchableOpacity style={{ alignSelf: 'flex-start' }}>
-              <Text style={{ 
-                color: '#25384D', 
-                fontSize: 14, 
-                fontFamily: 'Rubik_500Medium' 
-              }}>
+            <TouchableOpacity className="self-start">
+              <Text className="text-text-primary text-base" style={{ fontFamily: 'Rubik_500Medium' }}>
                 Esqueceu a senha?
               </Text>
             </TouchableOpacity>
           </View>
 
-          <View style={{ paddingBottom: 32, alignItems: 'center', marginBottom: 28, marginTop: 20 }}>
-            <View style={{ alignItems: 'center', marginBottom: 16 }}>
+          <View className="pb-8 items-center mb-7 mt-5">
+            <View className="items-center mb-4">
               <Ionicons name="finger-print" size={32} color="#7A869A66" />
-              <Text style={{ 
-                color: '#7A869A66', 
-                fontSize: 12, 
-                fontFamily: 'Rubik_400Regular',
-                textAlign: 'center',
-                marginTop: 8,
-                marginBottom: 16
-              }}>
+              <Text className="text-text-secondary/40 text-[14px] text-center mt-2 mb-14" style={{ fontFamily: 'Rubik_400Regular' }}>
                 Toque no sensor{'\n'}para entrar com sua biometria
               </Text>
             </View>
@@ -148,21 +104,10 @@ export default function EnterAccountScreen() {
             <TouchableOpacity 
               onPress={handleEntrar}
               disabled={loading}
-              style={{ 
-                backgroundColor: '#04BF7B', 
-                borderRadius: 16,
-                width: 290,
-                height: 45,
-                alignItems: 'center',
-                justifyContent: 'center',
-                opacity: loading ? 0.7 : 1
-              }}
+              className="bg-primary rounded-2xl w-[290px] h-[45px] items-center justify-center"
+              style={{ opacity: loading ? 0.7 : 1 }}
             >
-              <Text style={{ 
-                color: 'white', 
-                fontSize: 16, 
-                fontFamily: 'Rubik_500Medium' 
-              }}>
+              <Text className="text-white text-lg" style={{ fontFamily: 'Rubik_500Medium' }}>
                 {loading ? 'Entrando...' : 'Entrar'}
               </Text>
             </TouchableOpacity>

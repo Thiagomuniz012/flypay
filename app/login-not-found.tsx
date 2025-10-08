@@ -14,124 +14,53 @@ export default function LoginNotFoundScreen() {
       locations={[0.4, 1]}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 0 }}
-      style={{ flex: 1, overflow: 'hidden' }}
+      className="flex-1 overflow-hidden"
     >
-      <View 
-        style={{ 
-          position: 'absolute',
-          top: -50,
-          right: -30,
-          width: 170,
-          height: 170,
-          borderRadius: 100,
-          backgroundColor: '#F9F9F9',
-          opacity: 0.15
-        }} 
-      />
+      <View className="absolute -top-12 -right-8 w-[170px] h-[170px] rounded-[100px] bg-bg-white opacity-[0.15]" />
       
-      <View 
-        style={{ 
-          position: 'absolute',
-          top: 28,
-          right: -80,
-          width: 170,
-          height: 170,
-          borderRadius: 100,
-          backgroundColor: '#01DDC3',
-          opacity: 0.12
-        }} 
-      />
+      <View className="absolute top-7 -right-20 w-[170px] h-[170px] rounded-[100px] bg-primary-teal opacity-[0.12]" />
       
       <SafeAreaView>
-        <View className="px-10" style={{ paddingTop: 50 }}>
+        <View className="px-10 pt-12">
           <TouchableOpacity className="mb-8" onPress={() => router.back()}>
             <Ionicons name="arrow-back-outline" size={28} color="white" />
           </TouchableOpacity>
-          <Text 
-            style={{ 
-              color: 'white', 
-              fontSize: 28, 
-              fontFamily: 'Rubik_700Bold',
-              marginBottom: 36
-            }}
-          >
+          <Text className="text-white text-[32px] mb-9" style={{ fontFamily: 'Rubik_700Bold' }}>
             Login
           </Text>
         </View>
       </SafeAreaView>
 
-      <View 
-        className="flex-1" 
-        style={{ 
-          backgroundColor: 'white',
-          borderTopLeftRadius: 24,
-          borderTopRightRadius: 24,
-          justifyContent: 'space-between', 
-          paddingTop: 34,
-          paddingHorizontal: 32
-        }}
-      >
+      <View className="flex-1 bg-white rounded-t-3xl justify-between pt-8 px-8">
         <View>
-          <Text 
-            style={{ 
-              fontSize: 26, 
-              color: '#25384D', 
-              fontFamily: 'Rubik_700Bold',
-              textAlign: 'center',
-              marginBottom: 50
-            }}
-          >
+          <Text className="text-3xl text-text-primary text-center mb-12" style={{ fontFamily: 'Rubik_700Bold' }}>
             Bem-vindo
           </Text>
           
-          <Text 
-            style={{ 
-              fontSize: 16, 
-              color: '#7A869A', 
-              fontFamily: 'Rubik_400Regular',
-              textAlign: 'center',
-              marginBottom: 10
-            }}
-          >
+          <Text className="text-lg text-text-secondary text-center mb-2" style={{ fontFamily: 'Rubik_400Regular' }}>
             Parece que você ainda não cadastrou{'\n'}nenhuma conta.
           </Text>
 
-          <View style={{ alignItems: 'center', marginTop: 20 }}>
+          <View className="items-center mt-5">
             <Image 
               source={require('../assets/login-image.png')}
-              style={{ width: 240, height: 240 }}
+              className="w-60 h-60"
               resizeMode="contain"
             />
           </View>
         </View>
 
-        <View className="pb-8" style={{ alignItems: 'center', marginBottom: 28 }}>
+        <View className="pb-8 items-center mb-7">
           <TouchableOpacity 
             onPress={() => router.push('/create-account')}
-            style={{ 
-              backgroundColor: '#04BF7B', 
-              borderRadius: 16,
-              width: 290,
-              height: 45,
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginBottom: 16
-            }}
+            className="bg-primary rounded-2xl w-[290px] h-[45px] items-center justify-center mb-4"
           >
-            <Text style={{ 
-              color: 'white', 
-              fontSize: 16, 
-              fontFamily: 'Rubik_500Medium' 
-            }}>
+            <Text className="text-white text-lg" style={{ fontFamily: 'Rubik_500Medium' }}>
               Cadastrar conta
             </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => router.push('/create-account')}>
-            <Text style={{ 
-              color: '#04BF7B', 
-              fontSize: 16, 
-              fontFamily: 'Rubik_500Medium' 
-            }}>
+            <Text className="text-primary text-lg" style={{ fontFamily: 'Rubik_500Medium' }}>
               Criar conta
             </Text>
           </TouchableOpacity>

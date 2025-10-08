@@ -60,29 +60,23 @@ export default function CreateAccountScreen() {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-      <View style={{ flex: 1, backgroundColor: 'white', paddingHorizontal: 32 }}>
-        <View style={{ paddingTop: 20, marginBottom: 32 }}>
-          <TouchableOpacity onPress={() => router.back()} style={{ marginBottom: 24 }}>
+    <SafeAreaView className="flex-1 bg-white">
+      <View className="flex-1 bg-white px-8">
+        <View className="pt-5 mb-8">
+          <TouchableOpacity onPress={() => router.back()} className="mb-6">
             <Ionicons name="arrow-back-outline" size={28} color="#25384D" />
           </TouchableOpacity>
-          <Text 
-            style={{ 
-              color: '#25384D', 
-              fontSize: 22, 
-              fontFamily: 'Rubik_700Bold'
-            }}
-          >
+          <Text className="text-text-primary text-[22px]" style={{ fontFamily: 'Rubik_700Bold' }}>
             Criar sua conta
           </Text>
         </View>
 
         <ScrollView 
-          style={{ flex: 1 }}
+          className="flex-1"
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ flexGrow: 1 }}
         >
-          <View style={{ flex: 1, justifyContent: 'space-between', marginTop: 20 }}>
+          <View className="flex-1 justify-between mt-5">
             <View>
               <CustomInput
                 value={nomeCompleto}
@@ -133,37 +127,22 @@ export default function CreateAccountScreen() {
               />
             </View>
 
-            <View style={{ paddingBottom: 32, alignItems: 'center', marginBottom: 28, marginTop: 20 }}>
+            <View className="pb-8 items-center mb-7 mt-5">
               <TouchableOpacity 
                 onPress={handleCriarConta}
                 disabled={loading}
+                className="rounded-2xl w-[290px] h-[45px] items-center justify-center mb-4"
                 style={{ 
-                  backgroundColor: loading ? '#7A869A' : '#04BF7B', 
-                  borderRadius: 16,
-                  width: 290,
-                  height: 45,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginBottom: 16
+                  backgroundColor: loading ? '#7A869A' : '#04BF7B'
                 }}
               >
-                <Text style={{ 
-                  color: 'white', 
-                  fontSize: 16, 
-                  fontFamily: 'Rubik_500Medium' 
-                }}>
+                <Text className="text-white text-lg" style={{ fontFamily: 'Rubik_500Medium' }}>
                   {loading ? 'Criando...' : 'Criar Conta'}
                 </Text>
               </TouchableOpacity>
 
-              <TouchableOpacity 
-                onPress={() => router.push('/login')}
-              >
-                <Text style={{ 
-                  color: '#04BF7B', 
-                  fontSize: 16, 
-                  fontFamily: 'Rubik_500Medium' 
-                }}>
+              <TouchableOpacity onPress={() => router.push('/login')}>
+                <Text className="text-primary text-lg" style={{ fontFamily: 'Rubik_500Medium' }}>
                   Já tenho uma conta
                 </Text>
               </TouchableOpacity>
