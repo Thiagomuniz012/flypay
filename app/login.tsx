@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { autenticarUsuario, salvarUsuarioLogado } from '../services/storage';
 import { useAuth } from '../contexts/AuthContext';
@@ -10,6 +7,10 @@ import CustomAlert from '../components/CustomAlert';
 import { useCustomAlert } from '../hooks/useCustomAlert';
 import CPFInput from '../components/CPFInput';
 import PasswordInput from '../components/PasswordInput';
+import GradientBackground from '../components/GradientBackground';
+import PrimaryButton from '../components/PrimaryButton';
+import TextButton from '../components/TextButton';
+import BiometricPrompt from '../components/BiometricPrompt';
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -43,28 +44,10 @@ export default function LoginScreen() {
   };
 
   return (
-    <LinearGradient
-      colors={['#04BF7B', '#0396A6']}
-      locations={[0.4, 1]}
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 0 }}
-      className="flex-1 overflow-hidden"
+    <GradientBackground
+      titulo="Login"
+      aoVoltar={() => router.replace('/onboarding')}
     >
-      <View className="absolute -top-12 -right-8 w-[170px] h-[170px] rounded-[100px] bg-bg-white opacity-[0.15]" />
-      
-      <View className="absolute top-7 -right-20 w-[170px] h-[170px] rounded-[100px] bg-primary-teal opacity-[0.12]" />
-      
-      <SafeAreaView>
-        <View className="px-10 pt-12">
-          <TouchableOpacity className="mb-8" onPress={() => router.replace('/onboarding')}>
-            <Ionicons name="arrow-back-outline" size={28} color="white" />
-          </TouchableOpacity>
-          <Text className="text-white text-[32px] mb-9" style={{ fontFamily: 'Rubik_700Bold' }}>
-            Login
-          </Text>
-        </View>
-      </SafeAreaView>
-
       <View className="flex-1 bg-white rounded-t-3xl justify-between pt-8 px-8">
         <View>
           <View className="flex-row items-center mb-2">
@@ -104,29 +87,19 @@ export default function LoginScreen() {
         </View>
 
         <View className="pb-8 items-center mt-5">
-          <TouchableOpacity 
+          <PrimaryButton
+            texto={loading ? 'Entrando...' : 'Entrar'}
             onPress={handleLogin}
-            disabled={loading}
-            className="items-center justify-center bg-text-primary rounded-2xl w-[290px] h-[45px] mb-14"
-            style={{ opacity: loading ? 0.7 : 1 }}
-          >
-            <Text className="text-white text-lg" style={{ fontFamily: 'Rubik_500Medium' }}>
-              {loading ? 'Entrando...' : 'Entrar'}
-            </Text>
-          </TouchableOpacity>
+            carregando={loading}
+            variant="dark"
+          />
 
-          <View className="items-center mb-4">
-            <Ionicons name="finger-print" size={32} color="#7A869A66" />
-            <Text className="text-text-secondary/40 text-[16px] text-center mt-2 mb-5" style={{ fontFamily: 'Rubik_400Regular' }}>
-              Toque no sensor{'\n'}para entrar com sua biometria
-            </Text>
-          </View>
+          <BiometricPrompt margemSuperior={24} margemInferior={24} />
 
-          <TouchableOpacity className="items-center py-2">
-            <Text className="text-primary-cyan text-lg" style={{ fontFamily: 'Rubik_500Medium' }}>
-              Preciso de ajuda
-            </Text>
-          </TouchableOpacity>
+          <TextButton
+            texto="Preciso de ajuda"
+            cor="cyan"
+          />
         </View>
       </View>
       
@@ -140,6 +113,6 @@ export default function LoginScreen() {
         confirmText={alert.confirmText}
         showCancel={alert.showCancel}
       />
-    </LinearGradient>
+    </GradientBackground>
   );
 }

@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import PasswordInput from '../components/PasswordInput';
 import { autenticarUsuario, salvarUsuarioLogado } from '../services/storage';
 import { useAuth } from '../contexts/AuthContext';
 import CustomAlert from '../components/CustomAlert';
 import { useCustomAlert } from '../hooks/useCustomAlert';
+import ScreenHeader from '../components/ScreenHeader';
+import UserAvatar from '../components/UserAvatar';
+import BiometricPrompt from '../components/BiometricPrompt';
+import PrimaryButton from '../components/PrimaryButton';
 
 export default function EnterAccountScreen() {
   const router = useRouter();
@@ -52,21 +55,15 @@ export default function EnterAccountScreen() {
   return (
     <SafeAreaView className="flex-1 bg-white">
       <View className="flex-1 bg-white px-8">
-        <View className="pt-5 mb-8">
-          <TouchableOpacity onPress={() => router.back()} className="mb-6">
-            <Ionicons name="arrow-back-outline" size={28} color="#25384D" />
-          </TouchableOpacity>
-          <Text className="text-text-primary text-[22px]" style={{ fontFamily: 'Rubik_700Bold' }}>
-            Entre na sua conta
-          </Text>
-        </View>
+        <ScreenHeader
+          titulo="Entre na sua conta"
+          aoVoltar={() => router.back()}
+        />
 
         <View className="flex-1 justify-between mt-8">
           <View>
             <View className="flex-row items-center mb-10">
-              <View className="w-16 h-16 rounded-full border-[3px] border-primary mr-4 bg-border-light items-center justify-center">
-                <Ionicons name="person" size={32} color="#04BF7B" />
-              </View>
+              <UserAvatar tamanho="md" comBorda />
               <View>
                 <Text className="text-text-primary text-lg mb-1" style={{ fontFamily: 'Rubik_600SemiBold' }}>
                   {nomeUsuario}
@@ -94,23 +91,13 @@ export default function EnterAccountScreen() {
           </View>
 
           <View className="pb-8 items-center mb-7 mt-5">
-            <View className="items-center mb-4">
-              <Ionicons name="finger-print" size={32} color="#7A869A66" />
-              <Text className="text-text-secondary/40 text-[14px] text-center mt-2 mb-14" style={{ fontFamily: 'Rubik_400Regular' }}>
-                Toque no sensor{'\n'}para entrar com sua biometria
-              </Text>
-            </View>
+            <BiometricPrompt margemInferior={50} />
 
-            <TouchableOpacity 
+            <PrimaryButton
+              texto={loading ? 'Entrando...' : 'Entrar'}
               onPress={handleEntrar}
-              disabled={loading}
-              className="bg-primary rounded-2xl w-[290px] h-[45px] items-center justify-center"
-              style={{ opacity: loading ? 0.7 : 1 }}
-            >
-              <Text className="text-white text-lg" style={{ fontFamily: 'Rubik_500Medium' }}>
-                {loading ? 'Entrando...' : 'Entrar'}
-              </Text>
-            </TouchableOpacity>
+              carregando={loading}
+            />
           </View>
         </View>
       </View>
