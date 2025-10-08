@@ -26,13 +26,13 @@ export default function PasswordInput({
   const [mostrarSenha, setMostrarSenha] = useState(false);
 
   return (
-    <View style={{ marginBottom: 20 }}>
+    <View style={{ marginBottom: 16 }}>
       {label && (
         <Text style={{ 
-          fontSize: 14, 
+          fontSize: 16, 
           color: (isFocused || value) ? '#04BF7B' : '#C1C7D0', 
           fontFamily: 'Rubik_500Medium',
-          marginBottom: 18
+          marginBottom: 16
         }}>
           {label}
         </Text>

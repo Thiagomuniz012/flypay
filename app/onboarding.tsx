@@ -29,45 +29,45 @@ export default function OnboardingScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <View className="absolute top-20 left-6 z-10" style={{ width: 30, height: 30 }}>
+      <View className="absolute top-20 left-6 z-10 w-10 h-10">
         <Image 
           source={require('../assets/logo-flypay.png')} 
-          style={{ width: 30, height: 30 }}
+          className="w-10 h-10"
           resizeMode="contain"
         />
       </View>
 
-      <View className="flex-1 px-6" style={{ justifyContent: 'center', alignItems: 'center', marginTop: -40 }}>
+      <View className="flex-1 px-6 justify-center items-center -mt-10">
         <Image 
           source={require('../assets/onboarding-image.gif')} 
-          style={{ width: 525, height: 330, marginBottom: 20 }}
+          className="mb-5"
+          style={{ width: 525, height: 330 }}
           resizeMode="contain"
         />
 
-        <View style={{ minHeight: 180 }}>
+        <View className="min-h-[180px]">
           <Text 
-            className="text-center"
-            style={{ fontSize: 24, color: '#25384D', marginBottom: 80, fontFamily: 'Rubik_700Bold' }}
+            className="text-center text-text-primary text-3xl mb-20"
+            style={{ fontFamily: 'Rubik_700Bold' }}
           >
             A carteira digital feita para{'\n'}oferecer benefícios!
           </Text>
           <Text 
-            className="text-center"
-            style={{ fontSize: 16, color: '#7A869A66', fontFamily: 'Rubik_400Regular' }}
+            className="text-center text-gray-400 text-[18px]"
+            style={{ fontFamily: 'Rubik_400Regular' }}
           >
             Acesse sua conta e aproveite todos{'\n'}os benefícios do <Text style={{ fontFamily: 'Rubik_700Bold' }}>FizPay</Text>.
           </Text>
         </View>
       </View>
 
-      <View className="px-6 pb-4" style={{ paddingBottom: 30 }}>
-        <View className="flex-row">
+      <View className="px-6 pb-8">
+        <View className="flex-row ml-3.5">
           <TouchableOpacity 
-            className="flex-1 bg-green-500 py-4 rounded-lg items-center justify-center mr-3"
-            style={{ backgroundColor: '#04BF7B', marginLeft: 14 }}
+            className="flex-1 bg-primary py-4 rounded-2xl items-center justify-center mr-3"
             onPress={() => router.push('/login')}
           >
-            <Text style={{ color: 'white', fontSize: 16, fontFamily: 'Rubik_500Medium' }}>
+            <Text className="text-white text-[18px]" style={{ fontFamily: 'Rubik_500Medium' }}>
               Entrar
             </Text>
           </TouchableOpacity>
@@ -80,12 +80,10 @@ export default function OnboardingScreen() {
             onHoverOut={handlePressOut}
             onPress={() => router.push('/create-account')}
           >
-            <Text style={{ 
-              color: isHovered ? '#04BF7B' : '#7A869A', 
-              fontSize: 16, 
-              fontFamily: 'Rubik_500Medium', 
-              marginRight: 8 
-            }}>
+            <Text 
+              className={`text-[18px] mr-2 ${isHovered ? 'text-primary' : 'text-text-muted'}`}
+              style={{ fontFamily: 'Rubik_500Medium' }}
+            >
               Abrir Conta
             </Text>
             <Animated.View style={{ transform: [{ translateX }] }}>
@@ -101,4 +99,3 @@ export default function OnboardingScreen() {
     </SafeAreaView>
   );
 }
-

@@ -39,10 +39,10 @@ export default function CPFInput({
     <View style={{ marginBottom: 20 }}>
       {label && (
         <Text style={{ 
-          fontSize: 14, 
+          fontSize: 16, 
           color: (isFocused || value) ? '#04BF7B' : '#C1C7D0', 
           fontFamily: 'Rubik_600SemiBold',
-          marginBottom: 18
+          marginBottom: 16
         }}>
           {label}
         </Text>

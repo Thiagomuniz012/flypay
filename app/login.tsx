@@ -48,86 +48,33 @@ export default function LoginScreen() {
       locations={[0.4, 1]}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 0 }}
-      style={{ flex: 1, overflow: 'hidden' }}
+      className="flex-1 overflow-hidden"
     >
-      <View 
-        style={{ 
-          position: 'absolute',
-          top: -50,
-          right: -30,
-          width: 170,
-          height: 170,
-          borderRadius: 100,
-          backgroundColor: '#F9F9F9',
-          opacity: 0.15
-        }} 
-      />
+      <View className="absolute -top-12 -right-8 w-[170px] h-[170px] rounded-[100px] bg-bg-white opacity-[0.15]" />
       
-      <View 
-        style={{ 
-          position: 'absolute',
-          top: 28,
-          right: -80,
-          width: 170,
-          height: 170,
-          borderRadius: 100,
-          backgroundColor: '#01DDC3',
-          opacity: 0.12
-        }} 
-      />
+      <View className="absolute top-7 -right-20 w-[170px] h-[170px] rounded-[100px] bg-primary-teal opacity-[0.12]" />
       
       <SafeAreaView>
-        <View className="px-10" style={{ paddingTop: 50 }}>
+        <View className="px-10 pt-12">
           <TouchableOpacity className="mb-8" onPress={() => router.replace('/onboarding')}>
             <Ionicons name="arrow-back-outline" size={28} color="white" />
           </TouchableOpacity>
-          <Text 
-            style={{ 
-              color: 'white', 
-              fontSize: 28, 
-              fontFamily: 'Rubik_700Bold',
-              marginBottom:36
-            }}
-          >
+          <Text className="text-white text-[32px] mb-9" style={{ fontFamily: 'Rubik_700Bold' }}>
             Login
           </Text>
         </View>
       </SafeAreaView>
 
-      <View 
-        className="flex-1" 
-        style={{ 
-          backgroundColor: 'white',
-          borderTopLeftRadius: 24,
-          borderTopRightRadius: 24,
-          justifyContent: 'space-between', 
-          paddingTop: 34,
-          paddingHorizontal: 32
-        }}
-      >
+      <View className="flex-1 bg-white rounded-t-3xl justify-between pt-8 px-8">
         <View>
           <View className="flex-row items-center mb-2">
-            <Text 
-              style={{ 
-                fontSize: 24, 
-                color: '#25384D', 
-                fontFamily: 'Rubik_700Bold',
-                marginRight: 8
-              }}
-            >
+            <Text className="text-3xl text-text-primary mr-2" style={{ fontFamily: 'Rubik_700Bold' }}>
               Bem-vindo de volta
             </Text>
-            <Text style={{ fontSize: 24 }}>👋</Text>
+            <Text className="text-2xl">👋</Text>
           </View>
           
-          <Text 
-            style={{ 
-              fontSize: 16, 
-              color: '#7A869A', 
-              fontFamily: 'Rubik_400Regular',
-              marginBottom: 16
-            }}
-          >
+          <Text className="text-lg text-text-secondary mb-5" style={{ fontFamily: 'Rubik_400Regular' }}>
             Olá, faça login para continuar!
           </Text>
 
@@ -149,60 +96,34 @@ export default function LoginScreen() {
             onBlur={() => setIsSenhaFocused(false)}
           />
             
-          <TouchableOpacity style={{ alignSelf: 'flex-start' }}>
-            <Text style={{ 
-              color: '#25384D', 
-              fontSize: 14, 
-              fontFamily: 'Rubik_500Medium' 
-            }}>
+          <TouchableOpacity className="self-start">
+            <Text className="text-text-primary text-base" style={{ fontFamily: 'Rubik_500Medium' }}>
               Esqueceu a senha?
             </Text>
           </TouchableOpacity>
         </View>
 
-        <View className="pb-8" style={{ alignItems: 'center', marginTop: 20 }}>
+        <View className="pb-8 items-center mt-5">
           <TouchableOpacity 
             onPress={handleLogin}
             disabled={loading}
-            className="items-center justify-center"
-            style={{ 
-              backgroundColor: '#25384D', 
-              borderRadius: 16,
-              width: 290,
-              height: 45,
-              marginBottom: 20,
-              opacity: loading ? 0.7 : 1
-            }}
+            className="items-center justify-center bg-text-primary rounded-2xl w-[290px] h-[45px] mb-14"
+            style={{ opacity: loading ? 0.7 : 1 }}
           >
-            <Text style={{ 
-              color: 'white', 
-              fontSize: 16, 
-              fontFamily: 'Rubik_500Medium' 
-            }}>
+            <Text className="text-white text-lg" style={{ fontFamily: 'Rubik_500Medium' }}>
               {loading ? 'Entrando...' : 'Entrar'}
             </Text>
           </TouchableOpacity>
 
-          <View style={{ alignItems: 'center', marginBottom: 16 }}>
+          <View className="items-center mb-4">
             <Ionicons name="finger-print" size={32} color="#7A869A66" />
-            <Text style={{ 
-              color: '#7A869A66', 
-              fontSize: 12, 
-              fontFamily: 'Rubik_400Regular',
-              textAlign: 'center',
-              marginTop: 8,
-              marginBottom: 16
-            }}>
+            <Text className="text-text-secondary/40 text-[16px] text-center mt-2 mb-5" style={{ fontFamily: 'Rubik_400Regular' }}>
               Toque no sensor{'\n'}para entrar com sua biometria
             </Text>
           </View>
 
           <TouchableOpacity className="items-center py-2">
-            <Text style={{ 
-              color: '#0396A6', 
-              fontSize: 16, 
-              fontFamily: 'Rubik_500Medium' 
-            }}>
+            <Text className="text-primary-cyan text-lg" style={{ fontFamily: 'Rubik_500Medium' }}>
               Preciso de ajuda
             </Text>
           </TouchableOpacity>
