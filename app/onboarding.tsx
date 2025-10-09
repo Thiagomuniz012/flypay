@@ -31,7 +31,7 @@ export default function OnboardingScreen() {
     <SafeAreaView className="flex-1 bg-white">
       <View className="absolute top-20 left-6 z-10 w-10 h-10">
         <Image 
-          source={require('../assets/logo-flypay.png')} 
+          source={require('../assets/logo-fizpay.png')} 
           className="w-10 h-10"
           resizeMode="contain"
         />

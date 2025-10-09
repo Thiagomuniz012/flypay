@@ -1,35 +1,37 @@
 {
   "expo": {
-    "name": "fizpay",
+    "name": "Fizpay",
     "slug": "fizpay",
     "version": "1.0.0",
+    "description": "Fizpay",
     "scheme": "fizpay",
-    "orientation": "portrait",
-    "icon": "./assets/logo-flypay.png",
-    "userInterfaceStyle": "light",
-    "newArchEnabled": true,
-    "splash": {
-      "image": "./assets/logo-flypay.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/logo-flypay.png",
-        "backgroundColor": "#ffffff"
-      },
-      "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
-    },
-    "web": {
-      "favicon": "./assets/logo-flypay.png",
-      "bundler": "metro"
+    "icon": "./assets/logo-fizpay-icon.png",
+    "experiments": {
+      "tsconfigPaths": true
     },
     "plugins": [
-      "expo-font"
-    ]
+      "expo-router"
+    ],
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/logo-fizpay-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#FFFFFF"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.fizpay.app"
+    },
+    "android": {
+      "package": "com.fizpay.app",
+      "versionCode": 1,
+      "permissions": [],
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/logo-fizpay-icon.png",
+        "backgroundColor": "#FFFFFF"
+      }
+    }
   }
 }

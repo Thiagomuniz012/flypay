@@ -32,6 +32,7 @@ function RootLayoutNav() {
         animation: 'slide_from_right',
       }}
     >
+      <Stack.Screen name="index" />
       <Stack.Screen name="onboarding" />
       <Stack.Screen name="login" />
       <Stack.Screen name="login-not-found" />
@@ -46,28 +47,44 @@ function RootLayoutNav() {
 }
 
 export default function RootLayout() {
-  const [fontsLoaded] = useFonts({
+  const [fontsLoaded, fontError] = useFonts({
     Rubik_400Regular,
     Rubik_500Medium,
     Rubik_600SemiBold,
     Rubik_700Bold,
   });
-  const [dbReady, setDbReady] = useState(false);
+  const [appReady, setAppReady] = useState(false);
 
   useEffect(() => {
-    inicializarDB().then(() => setDbReady(true));
+    async function prepare() {
+      try {
+        console.log('Iniciando DB...');
+        await inicializarDB();
+        console.log('DB inicializado com sucesso');
+      } catch (error) {
+        console.error('Erro ao inicializar DB:', error);
+      } finally {
+        setAppReady(true);
+      }
+    }
+
+    prepare();
   }, []);
 
   useEffect(() => {
-    if (fontsLoaded && dbReady) {
+    console.log('Status:', { fontsLoaded, fontError, appReady });
+    if ((fontsLoaded || fontError) && appReady) {
+      console.log('Escondendo splash screen...');
       SplashScreen.hideAsync();
     }
-  }, [fontsLoaded, dbReady]);
+  }, [fontsLoaded, fontError, appReady]);
 
-  if (!fontsLoaded || !dbReady) {
+  if (!appReady || (!fontsLoaded && !fontError)) {
+    console.log('Aguardando:', { appReady, fontsLoaded, fontError });
     return null;
   }
 
+  console.log('Renderizando app...');
   return (
     <AuthProvider>
       <RootLayoutNav />

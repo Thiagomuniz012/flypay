@@ -19,7 +19,7 @@ export default function HomeScreen() {
         <View className="flex-row items-center justify-between px-6 pt-8 pb-6">
           <View className="flex-row items-center">
             <Image 
-              source={require('../../assets/logo-flypay.png')}
+              source={require('../../assets/logo-fizpay.png')}
               className="w-10 h-10 mr-3"
               resizeMode="contain"
             />
