@@ -17,16 +17,55 @@ export default function ConnectAccountScreen() {
   const [isNomeFocused, setIsNomeFocused] = useState(false);
   const { alert, showError, hideAlert } = useCustomAlert();
 
-  const handleEntrar = () => {
-    const cpfLimpo = cpfCnpj.replace(/\D/g, '');
+  const validarCPF = (cpf: string): boolean => {
+    const cpfLimpo = cpf.replace(/\D/g, '');
     
-    if (!cpfLimpo) {
-      showError('CPF/CNPJ obrigatório', 'Por favor, informe seu CPF ou CNPJ.');
+    if (cpfLimpo.length !== 11) {
+      showError('CPF inválido', 'O CPF deve ter 11 dígitos');
+      return false;
+    }
+
+    if (/^(\d)\1{10}$/.test(cpfLimpo)) {
+      showError('CPF inválido', 'Digite um CPF válido');
+      return false;
+    }
+
+    let soma = 0;
+    let resto;
+
+    for (let i = 1; i <= 9; i++) {
+      soma = soma + parseInt(cpfLimpo.substring(i - 1, i)) * (11 - i);
+    }
+
+    resto = (soma * 10) % 11;
+    if (resto === 10 || resto === 11) resto = 0;
+    if (resto !== parseInt(cpfLimpo.substring(9, 10))) {
+      showError('CPF inválido', 'Digite um CPF válido');
+      return false;
+    }
+
+    soma = 0;
+    for (let i = 1; i <= 10; i++) {
+      soma = soma + parseInt(cpfLimpo.substring(i - 1, i)) * (12 - i);
+    }
+
+    resto = (soma * 10) % 11;
+    if (resto === 10 || resto === 11) resto = 0;
+    if (resto !== parseInt(cpfLimpo.substring(10, 11))) {
+      showError('CPF inválido', 'Digite um CPF válido');
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleEntrar = () => {
+    if (!cpfCnpj.trim()) {
+      showError('CPF obrigatório', 'Por favor, informe seu CPF.');
       return;
     }
 
-    if (cpfLimpo.length !== 11 && cpfLimpo.length !== 14) {
-      showError('CPF/CNPJ inválido', 'Por favor, informe um CPF ou CNPJ válido.');
+    if (!validarCPF(cpfCnpj)) {
       return;
     }
 
@@ -34,6 +73,13 @@ export default function ConnectAccountScreen() {
       showError('Nome obrigatório', 'Por favor, informe como deseja ser chamado.');
       return;
     }
+
+    if (nome.trim().length < 2) {
+      showError('Nome muito curto', 'Digite um nome com pelo menos 2 caracteres');
+      return;
+    }
+
+    const cpfLimpo = cpfCnpj.replace(/\D/g, '');
 
     router.push({
       pathname: '/enter-account',

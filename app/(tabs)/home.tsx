@@ -1,19 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { useAuth } from '../contexts/AuthContext';
-import BalanceCard from '../components/BalanceCard';
-import ActionCard from '../components/ActionCard';
-import TransactionItem from '../components/TransactionItem';
-import CarouselCard from '../components/CarouselCard';
-import BottomTabBar, { TabName } from '../components/BottomTabBar';
+import { useAuth } from '../../contexts/AuthContext';
+import BalanceCard from '../../components/BalanceCard';
+import ActionCard from '../../components/ActionCard';
+import TransactionItem from '../../components/TransactionItem';
+import CarouselCard from '../../components/CarouselCard';
 
 export default function HomeScreen() {
   const router = useRouter();
   const { user } = useAuth();
-  const [activeTab, setActiveTab] = useState<TabName>('home');
 
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -21,7 +19,7 @@ export default function HomeScreen() {
         <View className="flex-row items-center justify-between px-6 pt-8 pb-6">
           <View className="flex-row items-center">
             <Image 
-              source={require('../assets/logo-flypay.png')}
+              source={require('../../assets/logo-flypay.png')}
               className="w-10 h-10 mr-3"
               resizeMode="contain"
             />
@@ -43,7 +41,7 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        <ScrollView className="flex-1" contentContainerStyle={{ paddingBottom: 20 }}>
+        <ScrollView className="flex-1" contentContainerStyle={{ paddingBottom: 90 }}>
           <View className="flex-row px-10 gap-3 mt-2">
             <BalanceCard
               titulo="SEU SALDO"
@@ -83,9 +81,9 @@ export default function HomeScreen() {
               className="gap-3"
               contentContainerStyle={{ paddingRight: 32 }}
             >
-              <CarouselCard imagemOrigem={require('../assets/carrousel-1.jpg')} />
-              <CarouselCard imagemOrigem={require('../assets/carrousel-2.png')} />
-              <CarouselCard imagemOrigem={require('../assets/carrousel-3.jpg')} />
+              <CarouselCard imagemOrigem={require('../../assets/carrousel-1.jpg')} />
+              <CarouselCard imagemOrigem={require('../../assets/carrousel-2.png')} />
+              <CarouselCard imagemOrigem={require('../../assets/carrousel-3.jpg')} />
             </ScrollView>
           </View>
 
@@ -93,7 +91,7 @@ export default function HomeScreen() {
             <Text className="text-text-primary text-[20px]" style={{ fontFamily: 'Rubik_500Medium' }}>
               Transações
             </Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => router.replace('/(tabs)/extract')}>
               <Text className="text-primary text-[18px]" style={{ fontFamily: 'Rubik_500Medium' }}>
                 Ver Tudo
               </Text>
@@ -142,9 +140,8 @@ export default function HomeScreen() {
             />
           </View>
         </ScrollView>
-
-        <BottomTabBar abaAtiva={activeTab} aoMudarAba={setActiveTab} />
       </View>
     </SafeAreaView>
   );
 }
+

@@ -22,9 +22,29 @@ export default function LoginScreen() {
   const [isSenhaFocused, setIsSenhaFocused] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const validarCPF = (cpf: string): boolean => {
+    const cpfLimpo = cpf.replace(/\D/g, '');
+    
+    if (cpfLimpo.length !== 11) {
+      showError('CPF inválido', 'O CPF deve ter 11 dígitos');
+      return false;
+    }
+
+    if (/^(\d)\1{10}$/.test(cpfLimpo)) {
+      showError('CPF inválido', 'Digite um CPF válido');
+      return false;
+    }
+
+    return true;
+  };
+
   const handleLogin = async () => {
-    if (!cpfCnpj || !senha) {
+    if (!cpfCnpj.trim() || !senha) {
       showError('Campos obrigatórios', 'Preencha todos os campos para continuar');
+      return;
+    }
+
+    if (!validarCPF(cpfCnpj)) {
       return;
     }
 
@@ -36,7 +56,7 @@ export default function LoginScreen() {
     if (usuario) {
       await salvarUsuarioLogado(usuario);
       setUser(usuario);
-      router.replace('/home');
+      router.replace('/(tabs)/home');
     } else {
       setLoading(false);
       router.push('/login-not-found');

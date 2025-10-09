@@ -20,7 +20,7 @@ function RootLayoutNav() {
     
     if (user && (!currentRoute || currentRoute === 'onboarding')) {
       router.replace('/login-with-session');
-    } else if (!user && (currentRoute === 'login-with-session' || currentRoute === 'home')) {
+    } else if (!user && (currentRoute === 'login-with-session' || currentRoute === '(tabs)')) {
       router.replace('/onboarding');
     }
   }, [user, loading, segments]);
@@ -39,7 +39,8 @@ function RootLayoutNav() {
       <Stack.Screen name="connect-account" />
       <Stack.Screen name="enter-account" />
       <Stack.Screen name="create-account" />
-      <Stack.Screen name="home" />
+      <Stack.Screen name="(tabs)" options={{ animation: 'none' }} />
+      <Stack.Screen name="qr-scanner" />
     </Stack>
   );
 }

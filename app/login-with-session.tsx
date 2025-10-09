@@ -59,7 +59,7 @@ export default function LoginWithSessionScreen() {
       if (usuario) {
         await salvarUsuarioLogado(usuario);
         setUser(usuario);
-        router.push('/home');
+        router.replace('/(tabs)/home');
       }
     } catch (error) {
       console.error('Erro ao fazer login:', error);

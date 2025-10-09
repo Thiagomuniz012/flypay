@@ -27,11 +27,95 @@ export default function CreateAccountScreen() {
   const [isConfirmarSenhaFocused, setIsConfirmarSenhaFocused] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const validarNome = (nome: string): boolean => {
+    const nomesTrimmed = nome.trim();
+    const palavras = nomesTrimmed.split(' ').filter(p => p.length > 0);
+    
+    if (palavras.length < 2) {
+      showError('Nome incompleto', 'Digite seu nome completo (nome e sobrenome)');
+      return false;
+    }
+
+    if (palavras.some(p => p.length < 2)) {
+      showError('Nome inválido', 'Cada parte do nome deve ter pelo menos 2 caracteres');
+      return false;
+    }
+
+    return true;
+  };
+
+  const validarCPF = (cpf: string): boolean => {
+    const cpfLimpo = cpf.replace(/\D/g, '');
+    
+    if (cpfLimpo.length !== 11) {
+      showError('CPF inválido', 'O CPF deve ter 11 dígitos');
+      return false;
+    }
+
+    if (/^(\d)\1{10}$/.test(cpfLimpo)) {
+      showError('CPF inválido', 'Digite um CPF válido');
+      return false;
+    }
+
+    let soma = 0;
+    let resto;
+
+    for (let i = 1; i <= 9; i++) {
+      soma = soma + parseInt(cpfLimpo.substring(i - 1, i)) * (11 - i);
+    }
+
+    resto = (soma * 10) % 11;
+    if (resto === 10 || resto === 11) resto = 0;
+    if (resto !== parseInt(cpfLimpo.substring(9, 10))) {
+      showError('CPF inválido', 'Digite um CPF válido');
+      return false;
+    }
+
+    soma = 0;
+    for (let i = 1; i <= 10; i++) {
+      soma = soma + parseInt(cpfLimpo.substring(i - 1, i)) * (12 - i);
+    }
+
+    resto = (soma * 10) % 11;
+    if (resto === 10 || resto === 11) resto = 0;
+    if (resto !== parseInt(cpfLimpo.substring(10, 11))) {
+      showError('CPF inválido', 'Digite um CPF válido');
+      return false;
+    }
+
+    return true;
+  };
+
+  const validarEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+    if (!emailRegex.test(email.trim())) {
+      showError('E-mail inválido', 'Digite um e-mail válido');
+      return false;
+    }
+
+    return true;
+  };
+
+  const validarSenha = (senha: string): boolean => {
+    if (senha.length < 6) {
+      showError('Senha muito curta', 'A senha deve ter no mínimo 6 caracteres');
+      return false;
+    }
+
+    return true;
+  };
+
   const handleCriarConta = async () => {
-    if (!nomeCompleto || !cpfCnpj || !email || !senha || !confirmarSenha) {
+    if (!nomeCompleto.trim() || !cpfCnpj.trim() || !email.trim() || !senha || !confirmarSenha) {
       showError('Campos obrigatórios', 'Preencha todos os campos para continuar');
       return;
     }
+
+    if (!validarNome(nomeCompleto)) return;
+    if (!validarCPF(cpfCnpj)) return;
+    if (!validarEmail(email)) return;
+    if (!validarSenha(senha)) return;
 
     if (senha !== confirmarSenha) {
       showError('Senhas não coincidem', 'As senhas digitadas não são iguais');
@@ -42,14 +126,14 @@ export default function CreateAccountScreen() {
 
     const cpfLimpo = cpfCnpj.replace(/\D/g, '');
 
-    const sucesso = await criarUsuario(nomeCompleto, cpfLimpo, email, senha);
+    const sucesso = await criarUsuario(nomeCompleto.trim(), cpfLimpo, email.trim().toLowerCase(), senha);
 
     if (sucesso) {
       showSuccess('Conta criada!', 'Sua conta foi criada com sucesso!', () => {
         router.replace({
           pathname: '/enter-account',
           params: {
-            nome: nomeCompleto,
+            nome: nomeCompleto.trim(),
             cpf: cpfLimpo
           }
         });

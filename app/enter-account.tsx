@@ -45,7 +45,7 @@ export default function EnterAccountScreen() {
     if (usuario) {
       await salvarUsuarioLogado(usuario);
       setUser(usuario);
-      router.replace('/home');
+      router.replace('/(tabs)/home');
     } else {
       showError('Senha incorreta', 'A senha digitada está incorreta. Tente novamente.');
       setLoading(false);
@@ -64,7 +64,7 @@ export default function EnterAccountScreen() {
           <View>
             <View className="flex-row items-center mb-10">
               <UserAvatar tamanho="md" comBorda />
-              <View>
+              <View className="ml-6">
                 <Text className="text-text-primary text-lg mb-1" style={{ fontFamily: 'Rubik_600SemiBold' }}>
                   {nomeUsuario}
                 </Text>

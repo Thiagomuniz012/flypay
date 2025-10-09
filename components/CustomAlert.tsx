@@ -11,6 +11,7 @@ interface CustomAlertProps {
   onConfirm?: () => void;
   confirmText?: string;
   showCancel?: boolean;
+  cancelText?: string;
 }
 
 const { width } = Dimensions.get('window');
@@ -23,7 +24,8 @@ export default function CustomAlert({
   onClose,
   onConfirm,
   confirmText = 'OK',
-  showCancel = false
+  showCancel = false,
+  cancelText = 'Cancelar'
 }: CustomAlertProps) {
   const getIconAndColor = () => {
     switch (type) {
@@ -106,7 +108,7 @@ export default function CustomAlert({
                   fontFamily: 'Rubik_500Medium',
                   textAlign: 'center'
                 }}>
-                  Cancelar
+                  {cancelText}
                 </Text>
               </TouchableOpacity>
             )}

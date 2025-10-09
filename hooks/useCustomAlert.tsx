@@ -8,6 +8,7 @@ interface AlertState {
   onConfirm?: () => void;
   confirmText?: string;
   showCancel?: boolean;
+  cancelText?: string;
 }
 
 export function useCustomAlert() {
@@ -24,7 +25,8 @@ export function useCustomAlert() {
     type: 'success' | 'error' | 'info' = 'info',
     onConfirm?: () => void,
     confirmText?: string,
-    showCancel?: boolean
+    showCancel?: boolean,
+    cancelText?: string
   ) => {
     setAlert({
       visible: true,
@@ -33,7 +35,8 @@ export function useCustomAlert() {
       type,
       onConfirm,
       confirmText,
-      showCancel
+      showCancel,
+      cancelText
     });
   };
 
