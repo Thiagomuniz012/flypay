@@ -3,14 +3,14 @@ import { View, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { criarUsuario } from '../services/storage';
-import CPFInput from '../components/CPFInput';
-import CustomInput from '../components/CustomInput';
-import PasswordInput from '../components/PasswordInput';
-import CustomAlert from '../components/CustomAlert';
-import { useCustomAlert } from '../hooks/useCustomAlert';
-import ScreenHeader from '../components/ScreenHeader';
-import PrimaryButton from '../components/PrimaryButton';
-import TextButton from '../components/TextButton';
+import CPFInput from '../src/components/CPFInput';
+import CustomInput from '../src/components/CustomInput';
+import PasswordInput from '../src/components/PasswordInput';
+import CustomAlert from '../src/components/CustomAlert';
+import { useCustomAlert } from '../src/hooks/useCustomAlert';
+import ScreenHeader from '../src/components/ScreenHeader';
+import PrimaryButton from '../src/components/PrimaryButton';
+import TextButton from '../src/components/TextButton';
 
 export default function CreateAccountScreen() {
   const router = useRouter();

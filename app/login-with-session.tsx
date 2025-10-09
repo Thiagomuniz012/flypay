@@ -3,10 +3,10 @@ import { View, Text } from 'react-native';
 import { useRouter } from 'expo-router';
 import { obterTodosUsuariosDaStorage, salvarUsuarioLogado } from '../services/storage';
 import { useAuth } from '../contexts/AuthContext';
-import GradientBackground from '../components/GradientBackground';
-import AccountDropdown from '../components/AccountDropdown';
-import PrimaryButton from '../components/PrimaryButton';
-import TextButton from '../components/TextButton';
+import GradientBackground from '../src/components/GradientBackground';
+import AccountDropdown from '../src/components/AccountDropdown';
+import PrimaryButton from '../src/components/PrimaryButton';
+import TextButton from '../src/components/TextButton';
 
 interface Account {
   id: number;

@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter, useLocalSearchParams } from 'expo-router';
-import PasswordInput from '../components/PasswordInput';
+import PasswordInput from '../src/components/PasswordInput';
 import { autenticarUsuario, salvarUsuarioLogado } from '../services/storage';
 import { useAuth } from '../contexts/AuthContext';
-import CustomAlert from '../components/CustomAlert';
-import { useCustomAlert } from '../hooks/useCustomAlert';
-import ScreenHeader from '../components/ScreenHeader';
-import UserAvatar from '../components/UserAvatar';
-import BiometricPrompt from '../components/BiometricPrompt';
-import PrimaryButton from '../components/PrimaryButton';
+import CustomAlert from '../src/components/CustomAlert';
+import { useCustomAlert } from '../src/hooks/useCustomAlert';
+import ScreenHeader from '../src/components/ScreenHeader';
+import UserAvatar from '../src/components/UserAvatar';
+import BiometricPrompt from '../src/components/BiometricPrompt';
+import PrimaryButton from '../src/components/PrimaryButton';
 
 export default function EnterAccountScreen() {
   const router = useRouter();

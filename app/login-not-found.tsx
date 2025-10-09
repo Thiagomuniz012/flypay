@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text, Image } from 'react-native';
 import { useRouter } from 'expo-router';
-import GradientBackground from '../components/GradientBackground';
-import PrimaryButton from '../components/PrimaryButton';
-import TextButton from '../components/TextButton';
+import GradientBackground from '../src/components/GradientBackground';
+import PrimaryButton from '../src/components/PrimaryButton';
+import TextButton from '../src/components/TextButton';
 
 export default function LoginNotFoundScreen() {
   const router = useRouter();

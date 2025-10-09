@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { Tabs, usePathname, useRouter } from 'expo-router';
-import BottomTabBar, { TabName } from '../../components/BottomTabBar';
+import BottomTabBar, { TabName } from '../../src/components/BottomTabBar';
 
 export default function TabsLayout() {
   const pathname = usePathname();

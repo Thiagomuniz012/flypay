@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import ScreenHeader from '../../components/ScreenHeader';
-import TransactionItem from '../../components/TransactionItem';
+import ScreenHeader from '../../src/components/ScreenHeader';
+import TransactionItem from '../../src/components/TransactionItem';
 
 export default function ExtractScreen() {
   const router = useRouter();

@@ -4,9 +4,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../../contexts/AuthContext';
-import UserAvatar from '../../components/UserAvatar';
-import CustomAlert from '../../components/CustomAlert';
-import { useCustomAlert } from '../../hooks/useCustomAlert';
+import UserAvatar from '../../src/components/UserAvatar';
+import CustomAlert from '../../src/components/CustomAlert';
+import { useCustomAlert } from '../../src/hooks/useCustomAlert';
 
 export default function ProfileScreen() {
   const router = useRouter();

@@ -3,7 +3,7 @@ import { View, Text, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import ScreenHeader from '../../components/ScreenHeader';
+import ScreenHeader from '../../src/components/ScreenHeader';
 
 export default function CashbackScreen() {
   const router = useRouter();

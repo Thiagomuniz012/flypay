@@ -3,14 +3,14 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import { autenticarUsuario, salvarUsuarioLogado } from '../services/storage';
 import { useAuth } from '../contexts/AuthContext';
-import CustomAlert from '../components/CustomAlert';
-import { useCustomAlert } from '../hooks/useCustomAlert';
-import CPFInput from '../components/CPFInput';
-import PasswordInput from '../components/PasswordInput';
-import GradientBackground from '../components/GradientBackground';
-import PrimaryButton from '../components/PrimaryButton';
-import TextButton from '../components/TextButton';
-import BiometricPrompt from '../components/BiometricPrompt';
+import CustomAlert from '../src/components/CustomAlert';
+import { useCustomAlert } from '../src/hooks/useCustomAlert';
+import CPFInput from '../src/components/CPFInput';
+import PasswordInput from '../src/components/PasswordInput';
+import GradientBackground from '../src/components/GradientBackground';
+import PrimaryButton from '../src/components/PrimaryButton';
+import TextButton from '../src/components/TextButton';
+import BiometricPrompt from '../src/components/BiometricPrompt';
 
 export default function LoginScreen() {
   const router = useRouter();

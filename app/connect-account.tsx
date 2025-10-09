@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import CPFInput from '../components/CPFInput';
-import CustomInput from '../components/CustomInput';
-import CustomAlert from '../components/CustomAlert';
-import { useCustomAlert } from '../hooks/useCustomAlert';
-import ScreenHeader from '../components/ScreenHeader';
-import PrimaryButton from '../components/PrimaryButton';
+import CPFInput from '../src/components/CPFInput';
+import CustomInput from '../src/components/CustomInput';
+import CustomAlert from '../src/components/CustomAlert';
+import { useCustomAlert } from '../src/hooks/useCustomAlert';
+import ScreenHeader from '../src/components/ScreenHeader';
+import PrimaryButton from '../src/components/PrimaryButton';
 
 export default function ConnectAccountScreen() {
   const router = useRouter();

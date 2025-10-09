@@ -1,7 +1,7 @@
 import * as SQLite from 'expo-sqlite';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Crypto from 'expo-crypto';
-import { Usuario } from '../models/Usuario';
+import { Usuario } from '../src/models/Usuario';
 
 let db: SQLite.SQLiteDatabase | null = null;
 

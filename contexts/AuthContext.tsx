@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { obterUsuarioLogado, limparUsuarioLogado } from '../services/storage';
-import { Usuario } from '../models/Usuario';
+import { Usuario } from '../src/models/Usuario';
 
 interface AuthContextType {
   user: Usuario | null;

@@ -4,10 +4,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useAuth } from '../../contexts/AuthContext';
-import BalanceCard from '../../components/BalanceCard';
-import ActionCard from '../../components/ActionCard';
-import TransactionItem from '../../components/TransactionItem';
-import CarouselCard from '../../components/CarouselCard';
+import BalanceCard from '../../src/components/BalanceCard';
+import ActionCard from '../../src/components/ActionCard';
+import TransactionItem from '../../src/components/TransactionItem';
+import CarouselCard from '../../src/components/CarouselCard';
 
 export default function HomeScreen() {
   const router = useRouter();
