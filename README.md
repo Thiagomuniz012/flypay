@@ -100,6 +100,174 @@ await AsyncStorage.setItem('userSession', JSON.stringify(userData));
 const session = await AsyncStorage.getItem('userSession');
 ```
 
+### 🌐 Classe ApiClient
+
+O projeto implementa uma **classe robusta para gerenciamento de APIs externas** com diversos recursos avançados:
+
+#### 📋 Funcionalidades
+
+- ✅ **Singleton Pattern** - Instância única em toda a aplicação
+- ✅ **Métodos HTTP** - GET, POST, PUT, PATCH, DELETE
+- ✅ **Autenticação Automática** - Gerenciamento de tokens Bearer
+- ✅ **Timeout Configurável** - Controle de tempo limite (padrão: 30s)
+- ✅ **Retry Automático** - Tenta novamente em caso de falha (padrão: 3 tentativas)
+- ✅ **Cache Inteligente** - Armazena respostas GET por 5 minutos
+- ✅ **Interceptores** - Modifica requests/responses antes do processamento
+- ✅ **Tratamento de Erros** - Mensagens amigáveis e tipadas
+- ✅ **Upload de Arquivos** - Suporte a FormData
+
+#### 🔧 Configuração Inicial
+
+```typescript
+import { api, configureApi } from '@/services/api';
+
+// Configurar URL base da API
+configureApi('https://api.exemplo.com');
+
+// Ou configurar manualmente
+api.setBaseURL('https://api.exemplo.com');
+api.setTimeout(60000); // 60 segundos
+```
+
+#### 💡 Exemplos de Uso
+
+**Requisição GET Simples:**
+```typescript
+import { api } from '@/services/api';
+
+interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+
+const response = await api.get<User[]>('/users');
+console.log(response.data);
+```
+
+**Requisição POST com Autenticação:**
+```typescript
+await api.setAuthToken('seu-token-jwt');
+
+const response = await api.post('/transactions', {
+  amount: 100.00,
+  recipient: 'user@example.com',
+});
+
+console.log(response.status); // 200
+console.log(response.data);
+```
+
+**Requisição com Configurações Customizadas:**
+```typescript
+const response = await api.get('/data', {
+  timeout: 5000,        // 5 segundos
+  retry: 5,             // 5 tentativas
+  retryDelay: 2000,     // 2 segundos entre tentativas
+  skipAuth: true,       // Não envia token
+  headers: {
+    'Custom-Header': 'value'
+  }
+});
+```
+
+**Upload de Arquivo:**
+```typescript
+const file = {
+  uri: 'file://path/to/image.jpg',
+  name: 'profile.jpg',
+  type: 'image/jpeg',
+};
+
+const response = await api.uploadFile('/upload', file, {
+  userId: '123',
+  category: 'profile',
+});
+```
+
+**Usando Interceptores:**
+```typescript
+api.registerInterceptors({
+  request: async (config) => {
+    console.log('Enviando requisição:', config);
+    return config;
+  },
+  response: async (response) => {
+    console.log('Resposta recebida:', response.status);
+    return response;
+  },
+  error: async (error) => {
+    console.error('Erro na API:', error.message);
+    if (error.status === 401) {
+      // Redirecionar para login
+    }
+    return error;
+  },
+});
+```
+
+**Gerenciamento de Cache:**
+```typescript
+// Cache é automático para requisições GET
+
+// Limpar cache manualmente
+api.clearCache();
+```
+
+**Tratamento de Erros:**
+```typescript
+try {
+  const response = await api.post('/transfer', data);
+  console.log('Sucesso:', response.data);
+} catch (error: any) {
+  if (error.code === 'TIMEOUT') {
+    console.error('Tempo limite excedido');
+  } else if (error.code === 'NETWORK_ERROR') {
+    console.error('Sem conexão com a internet');
+  } else if (error.status === 401) {
+    console.error('Não autorizado');
+  } else {
+    console.error('Erro:', error.message);
+  }
+}
+```
+
+#### 🔑 Gerenciamento de Autenticação
+
+```typescript
+// Salvar token após login
+await api.setAuthToken('jwt-token-here');
+
+// O token será incluído automaticamente em todas as requisições
+const userData = await api.get('/me');
+
+// Remover token (logout)
+await api.clearAuthToken();
+```
+
+#### 📊 Tipos e Interfaces
+
+A classe é totalmente tipada com TypeScript:
+
+```typescript
+import type { ApiResponse, ApiError, RequestConfig, ApiInterceptors } from '@/services/api';
+
+// Tipo de resposta
+interface ApiResponse<T> {
+  data: T;
+  status: number;
+  message?: string;
+}
+
+// Tipo de erro
+interface ApiError {
+  message: string;
+  status?: number;
+  code?: string;
+  details?: any;
+}
+```
+
 ---
 
 ## 🛠️ Como Rodar o Projeto
@@ -250,39 +418,11 @@ npm run format      # Formata o código
 
 ---
 
-## 🤝 Contribuindo
-
-Contribuições são bem-vindas! Para contribuir:
-
-1. Fork o projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/MinhaFeature`)
-3. Commit suas mudanças (`git commit -m 'Adiciona MinhaFeature'`)
-4. Push para a branch (`git push origin feature/MinhaFeature`)
-5. Abra um Pull Request
-
----
-
-## 📄 Licença
-
-Este projeto é de código aberto e está disponível sob a licença MIT.
-
----
-
 ## 👤 Autor
 
 **Thiago Muniz**
 
 - GitHub: [@Thiagomuniz012](https://github.com/Thiagomuniz012)
-
+- LinkedIn: [thiagomuniz012](https://www.linkedin.com/in/thiagomuniz012/)
+- E-mail: [thiago.muniz012@gmail.com](thiago.muniz012@gmail.com)
 ---
-
-## 📞 Suporte
-
-Se encontrar algum problema ou tiver sugestões, abra uma [issue](https://github.com/Thiagomuniz012/fizpay/issues).
-
----
-
-<div align="center">
-  Feito com ❤️ por Thiago Muniz
-</div>
-
